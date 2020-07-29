@@ -1,0 +1,10 @@
+# README: A simple global gitignore basis
+
+### VisualStudioCode ###
+**/.vscode/
+
+### Jetbrains ###
+**/.idea/
+
+### MacOs ###
+**/.DS_Store

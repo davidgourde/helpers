@@ -1,0 +1,24 @@
+# README: Use this gitconfig as a base to get useful aliases, including a better log and a way to "prune" local branches
+[core]
+	autocrlf = false
+	excludesfile = ~/.gitignore
+[alias]
+	st = status
+	co = checkout
+	ci = commit
+	br = branch
+	sub = submodule
+	cl = clean -f -x -d -e **/.idea -e **/.vscode
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	# prune-local prune the remote origin, then deletes the local branches that are not there anymore (deleted/merged/etc)
+    prune-local = "!f() { \
+                    git remote prune origin; \
+                    if [ $# -eq 0 ]; then \
+                        git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -d; \
+                    elif [ "$1" = "--dry-run" ] || [ "$1" = "-n" ]; then \
+                        echo "Would delete the following branches..."; echo; \
+                        git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}'; \
+                    elif [ "$1" = "--force" ] || [ "$1" = "-f" ]; then \
+                        git branch -vv | grep 'origin/.*: gone]' | awk '{print $1}' | xargs git branch -D; \
+                    fi \
+                }; f"
