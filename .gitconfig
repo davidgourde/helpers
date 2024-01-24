@@ -1,0 +1,26 @@
+# README: Use this gitconfig as a base to get useful aliases, including a better log and a way to "prune" local branches
+[core]
+	autocrlf = false
+	excludesfile = ~/.gitignore
+[alias]
+	st = status
+	co = checkout
+	ci = commit
+	br = branch
+	sub = submodule
+	cl = clean -f -x -d -e **/.idea -e **/.vscode
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	# prune-local prune the remote origin, then deletes the local branches that are not there anymore (deleted/merged/etc)
+    prune-local = "! ~/git-scripts/prune-local.sh" # prunes remote origin and deletes missing local branches
+	develop-into-master = "! ~/git-scripts/develop-to-master.sh"
+#[user]
+	# name = <fill in>
+	# email = <fill in>
+[credential]
+	helper = cache --timeout=2592000
+[url "git@github.com:"] # To always use SSH
+	insteadOf = https://github.com/
+[ssh]
+	postBuffer = 1048576000
+[push]
+	autoSetupRemote = true
